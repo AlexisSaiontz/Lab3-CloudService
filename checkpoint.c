@@ -187,7 +187,7 @@ bool add_to_log(uint32_t opcode, uint64_t arg1, uint64_t arg2) {
 
 		// go to correct block
 		lseek(fd, SUPERBLOCK + tail * LOG_ENTRY_BLOCK, SEEK_SET);
-		//fprintf(stderr, "Read %d block at position %d\n", (int) read(fd, block, LOG_ENTRY_BLOCK), tail);
+		fprintf(stderr, "Read %d block at position %d\n", (int) read(fd, block, LOG_ENTRY_BLOCK), tail);
 		// extract log entry block header
 
 		memcpy(header, block, LOG_ENTRY_HEADER);
@@ -220,7 +220,8 @@ bool add_to_log(uint32_t opcode, uint64_t arg1, uint64_t arg2) {
 void play_log_forward(char *block, uint32_t entries) {
         char *tmp = block + LOG_ENTRY_HEADER;
         log_entry *new = mmap(NULL, LOG_ENTRY, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
-        for (uint32_t i = 0; i < entries; i++) {
+	uint32_t i;
+        for (i = 0; i < entries; i++) {
                 memcpy(new, tmp + i * LOG_ENTRY, LOG_ENTRY);
                 switch(new->opcode) {
                         case ADD_NODE:
@@ -236,7 +237,7 @@ void play_log_forward(char *block, uint32_t entries) {
                                 remove_edge(new->node_a_id, new->node_b_id);
                			break;
 		 }
-	// fprintf(stderr, "op: %" PRIu32 ",node a: %" PRIu64 ", node b (only for 1 and 3): %" PRIu64 "\n", new->opcode, new->node_a_id, new->node_b_id);
+	fprintf(stderr, "op: %" PRIu32 ",node a: %" PRIu64 ", node b (only for 1 and 3): %" PRIu64 "\n", new->opcode, new->node_a_id, new->node_b_id);
         }
 }
 

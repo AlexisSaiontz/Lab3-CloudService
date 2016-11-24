@@ -43,7 +43,7 @@ char* make_json_one(const char* key, int key_length, int value) {
   sprintf(dummy, "%d", value);
   int value_length = strlen(dummy);
   int response_length = 2 + 2 + key_length + 1 + value_length + 1;
-  char* response = malloc(sizeof(char) * response_length);
+  char* response = (char *) malloc(sizeof(char) * response_length);
   sprintf(response, "{\"%s\":%d}",key,value);
   return response;
 }
@@ -59,31 +59,31 @@ char* make_json_two(const char* key1, const char* key2, int key1_length, int key
   int value2_length = strlen(dummy2);
 
   int response_length = 2 + 2 + key1_length + value1_length + 5 + key2_length + value2_length + 1;
-  char* response = malloc(sizeof(char) * response_length);
+  char* response = (char*) malloc(sizeof(char) * response_length);
   sprintf(response, "{\"%s\":%d,\"%s\":%d}", key1, value1, key2, value2);
   return response;
 }
 
 // Function that returns array formatted as a C string
 char* format_neighbors(uint64_t* neighbors, int size) {
-  char* response = malloc(sizeof(char));
+  char* response = (char *) malloc(sizeof(char));
   int response_length = 1;
   response[0] = '[';
   char dummy[20];
   int dummy_length;
-
-  for(int i = 0; i < size; i++) {
+  int i;
+  for(i = 0; i < size; i++) {
     if (i<size-1) sprintf(dummy, "%"PRIu64",", neighbors[i]);
     else sprintf(dummy, "%"PRIu64"", neighbors[i]);
 
     dummy_length = strlen(dummy);
     response_length += dummy_length;
-    response = realloc(response, sizeof(char)*(response_length + 1));
+    response = (char *) realloc(response, sizeof(char)*(response_length + 1));
     memcpy(response + response_length - dummy_length, dummy, dummy_length);
     response[response_length] = '\0';
   }
   response_length += 2;
-  response = realloc(response, sizeof(char)*response_length);
+  response = (char *) realloc(response, sizeof(char)*response_length);
   response[response_length-2] = ']';
   response[response_length-1] = '\0';
   return response;
@@ -96,7 +96,7 @@ char* make_neighbor_response(const char* key1, const char* key2, int key1_length
   int value1_length = strlen(dummy);
 
   int response_length = 9 + key1_length + value1_length + key2_length + strlen(neighbors) + 1;
-  char* response = malloc(sizeof(char) * response_length);
+  char* response = (char *) malloc(sizeof(char) * response_length);
   sprintf(response, "{\"%s\":%d,\"%s\":%s}", key1, value1, key2, neighbors);
   return response;
 }
@@ -324,11 +324,11 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
 
       }
       else {
-        checkpoint_area *flat_graph= malloc(sizeof(struct checkpoint_area));
+        checkpoint_area *flat_graph = (checkpoint_area *) malloc(sizeof(struct checkpoint_area));
     
 
-        uint64_t *nodes = malloc(sizeof(uint64_t) * nsize);
-        mem_edge *edges = malloc(sizeof(struct mem_edge) * esize);
+        uint64_t *nodes = (uint64_t *) malloc(sizeof(uint64_t) * nsize);
+        mem_edge *edges = (mem_edge *) malloc(sizeof(struct mem_edge) * esize);
 
         flat_graph->nsize = nsize;
         flat_graph->esize = esize;
@@ -337,7 +337,7 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
 
         make_checkpoint(flat_graph);
         docheckpoint(flat_graph);
-        checkpoint_area *loaded = get_checkpoint(fd);
+        checkpoint_area *loaded = get_checkpoint();
         respond(c, 200, 0, ""); 
       } 
     } 
@@ -375,17 +375,18 @@ int main(int argc, char** argv) {
   // ensure <port> is a number
   struct mg_mgr mgr;
   struct mg_connection *c;
-// pass in void pointer
-
-
+ 
+  // pass in void pointer
   mg_mgr_init(&mgr, NULL);
   c = mg_bind(&mgr, s_http_port, ev_handler);
   mg_set_protocol_http_websocket(c);
 
   map.nsize = 0;
   map.esize = 0;
-  map.table = malloc(SIZE * sizeof(vertex*));
-  for (int i = 0; i < SIZE; i++) (map.table)[i] = NULL;
+  map.table = (vertex **) malloc(SIZE * sizeof(vertex*));
+  
+  int i;
+  for (i = 0; i < SIZE; i++) (map.table)[i] = NULL;
 
  // Format option
   if (format) {
@@ -401,7 +402,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Normal startup failed. Abort\n");
         return 1;
       } else {
-        checkpoint_area *loaded = get_checkpoint(fd);
+        checkpoint_area *loaded = get_checkpoint();
         if (loaded != NULL) buildmap(loaded);
 	      tail = get_tail();
       }

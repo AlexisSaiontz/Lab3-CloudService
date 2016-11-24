@@ -22,6 +22,16 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+ #ifdef __cplusplus
+ #define EXTERNC extern "C"
+ #else
+ #define EXTERNC
+ #endif
+
+EXTERNC int test(void);
+
+#undef EXTERNC
+
 /*
 	Hashtable API prototypes
 */
@@ -215,7 +225,7 @@ checkpoint_area *get_checkpoint();
 int make_checkpoint(struct checkpoint_area * flat_graph);
 
 //Writes checkpoint to disk and updates superblock generation
-int docheckpoint(struct checkpoint_area * new);
+int docheckpoint(struct checkpoint_area* new_checkpoint);
 
 // Updates the in-memory map from the checkpointed map stored in disk
 int buildmap(struct checkpoint_area * loaded);
