@@ -37,7 +37,7 @@
  #endif
 EXTERNC void test2();
 EXTERNC int test(void);
-EXTERNC int serve_previous();
+EXTERNC int send_to_next(const uint64_t, const uint64_t, const uint64_t);
 #undef EXTERNC
 
 /*

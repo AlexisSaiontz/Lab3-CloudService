@@ -144,6 +144,11 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       int index1 = argument_pos(tokens, arg_id);
       uint64_t arg_int = strtoll(tokens[index1 + 1].ptr, &endptr, 10);
 
+      // send operation to middle node
+      int code = send_to_next(ADD_NODE, arg_int, 0);
+      // if acknowledgment code not OK (=200), respond without writing
+      if (code != 200) respond(c, code, 0, "");
+
       // returns true if successfully added
       if (add_vertex(arg_int)) {
 	// append operation to log
@@ -397,9 +402,7 @@ int main(int argc, char** argv) {
   struct mg_mgr mgr;
   struct mg_connection *c;
 
-
 test(); 
-serve_previous();
 
 // multiple threads there for 2 and 3
 
