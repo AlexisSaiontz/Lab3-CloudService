@@ -46,16 +46,54 @@ class MutatorClient {
 
 };
 
-int send_to_next() {
+int send_to_next(const uint64_t opcode, const uint64_t id_a, const uint64_t id_b) {
   // Instantiate the client. It requires a channel, out of which the actual RPCs
-  // are created. This channel models a connection to an endpoint (in this case,
-  // localhost at port 50051). We indicate that the channel isn't authenticated
+  // are created. This channel models a connection to an endpoint
+  // We indicate that the channel isn't authenticated
   // (use of InsecureChannelCredentials()).
+
   MutatorClient mutator(grpc::CreateChannel(
-      "localhost:8080", grpc::InsecureChannelCredentials()));
-  //:w:Node node;
-  //node.set_id(9);
-  int add_node_code = mutator.add_node(9);
-  std::cout << "Client received status code: " << add_node_code << std::endl;
-  return 0;
+    (CHAIN_NUM == 1 ? IP_2 : IP_3), grpc::InsecureChannelCredentials()));
+
+  int code;
+
+  switch (CHAIN_NUM) {
+    // head of the chain, client only
+    case 1:
+      switch(opcode) {
+        case ADD_NODE:
+	  code = mutator.add_node(id_a);
+          break;
+        case REMOVE_NODE:
+	  //code = mutator.remove_node(id_a);
+          break;
+        case ADD_EDGE:
+	  //code = mutator.add_edge(id_a, id_b);
+          break;
+        case REMOVE_EDGE:
+	  //code = mutator.remove_edge(id_a, id_b);
+          break;
+      }
+      break;
+    // middle of the chain, client & server
+    case 2:
+      switch(opcode) {
+        case ADD_NODE:
+	  code = mutator.add_node(id_a);
+          break;
+        case REMOVE_NODE:
+	  //code = mutator.remove_node(id_a);
+          break;
+        case ADD_EDGE:
+	  //code = mutator.add_edge(id_a, id_b);
+          break;
+        case REMOVE_EDGE:
+	  //code = mutator.remove_edge(id_a, id_b);
+          break;
+      }
+      break;
+  }
+  
+  std::cout << "Client received status code: " << code << std::endl;
+  return code;
 }

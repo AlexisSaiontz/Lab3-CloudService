@@ -11,6 +11,11 @@
 // Which node # in the chain is this VM?
 #define CHAIN_NUM (1)
 
+// Define IPs of chain and port numbers listening
+#define IP_1 ("23.236.59.20:8080")
+#define IP_2 ("104.155.142.220:8080")
+#define IP_3 ("104.197.131.38:8080")
+
 #include <assert.h>
 #include <errno.h>
 #include <fcntl.h>

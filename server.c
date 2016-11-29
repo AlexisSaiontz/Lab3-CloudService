@@ -131,7 +131,10 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       return;
     }
     if (!strncmp(hm->uri.p, "/api/v1/add_node", hm->uri.len)) {     
-    // body does not contain expected key
+      // if not head of chain
+      if (CHAIN_NUM != 1) return;
+
+      // body does not contain expected key
       if (find_id == 0) {
         badRequest(c);
         return;
@@ -155,6 +158,9 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       }
     } 
     else if (!strncmp(hm->uri.p, "/api/v1/add_edge", hm->uri.len)) {
+      // if not head of chain
+      if (CHAIN_NUM != 1) return;
+
       // body does not contain expected keys
       if (find_a == 0 || find_b == 0) {
         badRequest(c);
@@ -183,6 +189,9 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       }
     } 
     else if (!strncmp(hm->uri.p, "/api/v1/remove_node", hm->uri.len)) {
+      // if not head of chain
+      if (CHAIN_NUM != 1) return;
+
       // body does not contain expected key
       if (find_id == 0) {
         badRequest(c);
@@ -206,6 +215,9 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       }
     } 
     else if (!strncmp(hm->uri.p, "/api/v1/remove_edge", hm->uri.len)) {
+      // if not head of chain
+      if (CHAIN_NUM != 1) return;
+
       // body does not contain expected keys
       if (find_a == 0 || find_b == 0) {
         badRequest(c);
@@ -370,6 +382,10 @@ int main(int argc, char** argv) {
   }
 
   const char *s_http_port = argv[(format? 2 : 1)];
+  if (!strcmp("8080", s_http_port)) {
+    fprintf(stderr, "Use 8080 for port!");
+    return 1; 
+  }
   const char *devfile = argv[(format? 3 : 2)];
 
   fd = open(devfile, O_RDWR);
