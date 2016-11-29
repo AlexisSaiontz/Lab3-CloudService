@@ -17,6 +17,11 @@ extern uint32_t tail;        // in-memory tail of the log
 
 int fd;
 
+void test2(){
+	printf("IT WORKED?\n");
+}
+
+
 // Responds to given connection with code and length bytes of body
 static void respond(struct mg_connection *c, int code, const int length, const char* body) {
   mg_send_head(c, code, length, "Content-Type: application/json");
@@ -375,7 +380,13 @@ int main(int argc, char** argv) {
   // ensure <port> is a number
   struct mg_mgr mgr;
   struct mg_connection *c;
- 
+
+
+test(); 
+serve_previous();
+
+// multiple threads there for 2 and 3
+
   // pass in void pointer
   mg_mgr_init(&mgr, NULL);
   c = mg_bind(&mgr, s_http_port, ev_handler);

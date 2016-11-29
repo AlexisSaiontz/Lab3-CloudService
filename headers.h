@@ -8,6 +8,9 @@
  * and structure definitions
  */
 
+// Which node # in the chain is this VM?
+#define CHAIN_NUM (1)
+
 #include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -27,9 +30,9 @@
  #else
  #define EXTERNC
  #endif
-
+EXTERNC void test2();
 EXTERNC int test(void);
-
+EXTERNC int serve_previous();
 #undef EXTERNC
 
 /*
