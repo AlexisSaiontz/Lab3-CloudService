@@ -133,8 +133,10 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
     }
     if (!strncmp(hm->uri.p, "/api/v1/add_node", hm->uri.len)) {     
       // if not head of chain
-      if (CHAIN_NUM != 1) return;
-
+      if (CHAIN_NUM != 1) {
+	respond(c, 400, 0, "");
+	return;
+      }
       // body does not contain expected key
       if (find_id == 0) {
         badRequest(c);
@@ -165,7 +167,10 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
     } 
     else if (!strncmp(hm->uri.p, "/api/v1/add_edge", hm->uri.len)) {
       // if not head of chain
-      if (CHAIN_NUM != 1) return;
+      if (CHAIN_NUM != 1) {
+        respond(c, 400, 0, "");
+        return;
+      }
 
       // body does not contain expected keys
       if (find_a == 0 || find_b == 0) {
@@ -196,7 +201,10 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
     } 
     else if (!strncmp(hm->uri.p, "/api/v1/remove_node", hm->uri.len)) {
       // if not head of chain
-      if (CHAIN_NUM != 1) return;
+      if (CHAIN_NUM != 1) {
+        respond(c, 400, 0, "");
+        return;
+      }
 
       // body does not contain expected key
       if (find_id == 0) {
@@ -222,7 +230,10 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
     } 
     else if (!strncmp(hm->uri.p, "/api/v1/remove_edge", hm->uri.len)) {
       // if not head of chain
-      if (CHAIN_NUM != 1) return;
+      if (CHAIN_NUM != 1) {
+        respond(c, 400, 0, "");
+        return;
+      }
 
       // body does not contain expected keys
       if (find_a == 0 || find_b == 0) {
