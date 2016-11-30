@@ -2,11 +2,5 @@ checkpoint.o
 hashtable.o
 mongoose.o
 server.o
-test.grpc.pb.cc
-test.grpc.pb.h
-test.grpc.pb.o
-test.pb.cc
-test.pb.h
-test.pb.o
 tester_client.o
 tester_server.o
