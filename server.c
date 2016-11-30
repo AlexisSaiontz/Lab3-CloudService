@@ -437,24 +437,28 @@ int main(int argc, char** argv) {
       }
   }
 
-  pid_t pid;
-  pid = fork();
   
-  if(pid < 0) { perror("fork"); exit(0); }
-  if (pid == 0) {
-    if (CHAIN_NUM == 2) {
-      fprintf(stderr, "In chain 2\n");
-      serve_rpc();
-    } else if (CHAIN_NUM == 3) {
-      fprintf(stderr, "In chain 3\n");
-      serve_rpc();
+ 
+
+
+
+    if (CHAIN_NUM != 1) {
+      // create reference to second thread
+      pthread_t inc_x_thread;
+      int x;
+
+      fprintf(stderr, "In chain %d\n", CHAIN_NUM);
+      if(pthread_create(&inc_x_thread, NULL, serve_rpc, &x)) {
+	fprintf(stderr, "Error creating thread\n");
+	return 1;
+      }
     }
-  } else {
+
     for (;;) {
       mg_mgr_poll(&mgr, 1000);
     }
     mg_mgr_free(&mgr);
-  }
+
 
     return 0;
   }

@@ -82,7 +82,7 @@ class TesterService final : public Mutator::Service {
   }
 };
 
-int serve_rpc() {
+void *serve_rpc(void *arg) {
 
   // server serves on its own IP, port 50051
   std::string address = "0.0.0.0:50051";
@@ -100,6 +100,4 @@ int serve_rpc() {
   // Wait for the server to shutdown. Note that some other thread must be
   // responsible for shutting down the server for this call to ever return.
   server->Wait();
-
-  return 0;
 }

@@ -29,6 +29,7 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <pthread.h>
 
  #ifdef __cplusplus
  #define EXTERNC extern "C"
@@ -38,7 +39,7 @@
 EXTERNC void test2();
 EXTERNC int test(void);
 EXTERNC int send_to_next(const uint64_t, const uint64_t, const uint64_t);
-EXTERNC int serve_rpc();
+EXTERNC void *serve_rpc(void*);
 EXTERNC bool add_vertex(unsigned long);
 #undef EXTERNC
 
