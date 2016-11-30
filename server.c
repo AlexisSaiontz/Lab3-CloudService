@@ -444,8 +444,10 @@ int main(int argc, char** argv) {
   if (pid == 0) {
     if (CHAIN_NUM == 2) {
       fprintf(stderr, "In chain 2\n");
+      serve_rpc();
     } else if (CHAIN_NUM == 3) {
       fprintf(stderr, "In chain 3\n");
+      serve_rpc();
     }
   } else {
     for (;;) {
