@@ -1,5 +1,4 @@
 checkpoint.o
-cs426_graph_server
 hashtable.o
 mongoose.o
 server.o
@@ -11,4 +10,3 @@ test.pb.h
 test.pb.o
 tester_client.o
 tester_server.o
-\\
