@@ -45,6 +45,7 @@ bool add_vertex(uint64_t id) {
 	int hash = hash_vertex(id);
 	vertex** table = map.table;
 
+	// ensures vertex does not exist
 	if(ret_vertex(id)) return false;
 
 	vertex* new = malloc(sizeof(vertex));

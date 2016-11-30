@@ -17,15 +17,46 @@ using mutate::Edge;
 using mutate::Code;
 using mutate::Mutator;
 
+extern int CHAIN_NUM;
+
 // define the service class.
 class TesterService final : public Mutator::Service {
   
   Status add_node(ServerContext* context, const Node* node,
                   Code* reply) override {
-    // Call add_node, set *reply accordingly
-    printf("Received: Add node %d\n", (int) node->id());
-    reply->set_code(300);
-    return Status::OK;
+    bool result;
+    int r_code;
+    switch(CHAIN_NUM) {
+        case 2: {
+	  // First make request to tail
+	  r_code = send_to_next(ADD_NODE, node->id(), 0);
+	  // 500 is designated for RPC failures
+	  if (r_code == 500) {
+	    reply->set_code(500);
+	    return Status::CANCELLED;
+	  }
+	  // Apply change and reply
+	  result = add_vertex(node->id());
+          if (result) {
+            printf("Added node %d\n", (int) node->id());
+            reply->set_code(200);
+          } else {
+            reply->set_code(204);
+          }
+	  return Status::OK;
+	}
+	case 3: {
+	  // Apply change and reply
+	  result = add_vertex(node->id());
+	  if (result) {
+	    printf("Added node %d\n", (int) node->id());
+	    reply->set_code(200);
+	  } else {
+	    reply->set_code(204);
+	  }
+	  return Status::OK;
+	}
+    }   
   }
 
   Status remove_node(ServerContext* context, const Node* node,
@@ -51,9 +82,10 @@ class TesterService final : public Mutator::Service {
   }
 };
 
-int serve_previous() {
+int serve_rpc() {
 
-  std::string address = "0.0.0.0:8080";
+  // server serves on its own IP, port 50051
+  std::string address = "0.0.0.0:50051";
   TesterService service;
 
   ServerBuilder builder;

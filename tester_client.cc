@@ -16,6 +16,8 @@ using mutate::Edge;
 using mutate::Code;
 using mutate::Mutator;
 
+extern int CHAIN_NUM;
+
 class MutatorClient {
  public:
   MutatorClient(std::shared_ptr<Channel> channel)

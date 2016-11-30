@@ -9,12 +9,12 @@
  */
 
 // Which node # in the chain is this VM?
-#define CHAIN_NUM (1)
+//int CHAIN_NUM;
 
 // Define IPs of chain and port numbers listening
-#define IP_1 ("23.236.59.20:8080")
-#define IP_2 ("104.155.142.220:8080")
-#define IP_3 ("104.197.131.38:8080")
+#define IP_1 ("23.236.59.20:50051")
+#define IP_2 ("104.155.142.220:50051")
+#define IP_3 ("104.197.131.38:50051")
 
 #include <assert.h>
 #include <errno.h>
@@ -38,6 +38,8 @@
 EXTERNC void test2();
 EXTERNC int test(void);
 EXTERNC int send_to_next(const uint64_t, const uint64_t, const uint64_t);
+EXTERNC int serve_rpc();
+EXTERNC bool add_vertex(unsigned long);
 #undef EXTERNC
 
 /*

@@ -16,6 +16,7 @@ extern uint32_t generation;  // in-memory generation number
 extern uint32_t tail;        // in-memory tail of the log
 
 int fd;
+int CHAIN_NUM;
 
 void test2(){
 	printf("IT WORKED?\n");
@@ -387,10 +388,6 @@ int main(int argc, char** argv) {
   }
 
   const char *s_http_port = argv[(format? 2 : 1)];
-  if (!strcmp("8080", s_http_port)) {
-    fprintf(stderr, "Use 8080 for port!");
-    return 1; 
-  }
   const char *devfile = argv[(format? 3 : 2)];
 
   fd = open(devfile, O_RDWR);
@@ -398,15 +395,17 @@ int main(int argc, char** argv) {
     fprintf(stderr, "Unable to open %s. Abort.\n", devfile);
     return 1;
   }
-  // ensure <port> is a number
-  struct mg_mgr mgr;
+
+  // get chain_num from environment
+  CHAIN_NUM = atoi(getenv("CHAIN_NUM"));
+  fprintf(stderr, "Chain num is %d\n", CHAIN_NUM);
+
+//test(); 
+  
+  struct mg_mgr mgr; 
   struct mg_connection *c;
-
-test(); 
-
-// multiple threads there for 2 and 3
-
-  // pass in void pointer
+ 
+   // pass in void pointer
   mg_mgr_init(&mgr, NULL);
   c = mg_bind(&mgr, s_http_port, ev_handler);
   mg_set_protocol_http_websocket(c);
@@ -438,10 +437,22 @@ test();
       }
   }
 
+  pid_t pid;
+  pid = fork();
+  
+  if(pid < 0) { perror("fork"); exit(0); }
+  if (pid == 0) {
+    if (CHAIN_NUM == 2) {
+      fprintf(stderr, "In chain 2\n");
+    } else if (CHAIN_NUM == 3) {
+      fprintf(stderr, "In chain 3\n");
+    }
+  } else {
     for (;;) {
       mg_mgr_poll(&mgr, 1000);
     }
     mg_mgr_free(&mgr);
+  }
 
     return 0;
   }
