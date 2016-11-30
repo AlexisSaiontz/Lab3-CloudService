@@ -121,16 +121,19 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
     struct json_token* find_id;
     struct json_token* find_a;
     struct json_token* find_b;
-    if (strncmp(hm->uri.p, "/api/v1/checkpoint", hm->uri.len)){
-    find_id = find_json_token(tokens, arg_id);
-    find_a = find_json_token(tokens, arg_a);
-    find_b = find_json_token(tokens, arg_b);
-    }
+
     // Sanity check for endpoint length and body not empty
-    if (hm->uri.len < 16 || tokens == NULL) {
+    if (hm->uri.len < 16 || (tokens == NULL && strncmp(hm->uri.p, "/api/v1/checkpoint", hm->uri.len))) {
       badRequest(c);
       return;
     }
+
+    if (strncmp(hm->uri.p, "/api/v1/checkpoint", hm->uri.len)){
+    	find_id = find_json_token(tokens, arg_id);
+    	find_a = find_json_token(tokens, arg_a);
+    	find_b = find_json_token(tokens, arg_b);
+    }
+
     if (!strncmp(hm->uri.p, "/api/v1/add_node", hm->uri.len)) {     
       // if not head of chain
       if (CHAIN_NUM != 1) {
