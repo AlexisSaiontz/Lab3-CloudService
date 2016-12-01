@@ -22,7 +22,7 @@ SRCS = mongoose.c hashtable.c checkpoint.c server.c
 OBJS = $(SRCS:.c=.o) test.pb.o test.grpc.pb.o tester_client.o tester_server.o
 
 # default target
-$(EXE): $(OBJS) $(HDRSRS)
+$(EXE): $(OBJS) $(HDRS)
 	$(CXX) $^ $(CXXFLAGS) $(LDFLAGS) -o $@ #$(OBJS)
 
 # dependencies
