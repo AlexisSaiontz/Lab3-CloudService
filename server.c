@@ -148,7 +148,10 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       // send operation to middle node
       int code = send_to_next(ADD_NODE, arg_int, 0);
       // if acknowledgment code not OK (=200), respond without writing
-      if (code != 200) respond(c, code, 0, "");
+      if (code != 200) {
+	respond(c, code, 0, "");
+        return;
+      }
 
       // returns true if successfully added
       if (add_vertex(arg_int)) {
