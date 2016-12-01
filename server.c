@@ -18,11 +18,6 @@ extern uint32_t tail;        // in-memory tail of the log
 int fd;
 int CHAIN_NUM;
 
-void test2(){
-	printf("IT WORKED?\n");
-}
-
-
 // Responds to given connection with code and length bytes of body
 static void respond(struct mg_connection *c, int code, const int length, const char* body) {
   mg_send_head(c, code, length, "Content-Type: application/json");
@@ -412,9 +407,7 @@ int main(int argc, char** argv) {
 
   // get chain_num from environment
   CHAIN_NUM = atoi(getenv("CHAIN_NUM"));
-  fprintf(stderr, "Chain num is %d\n", CHAIN_NUM);
-
-//test(); 
+  fprintf(stderr, "Chain num is %d\n", CHAIN_NUM); 
   
   struct mg_mgr mgr; 
   struct mg_connection *c;
@@ -450,11 +443,6 @@ int main(int argc, char** argv) {
 	      tail = get_tail();
       }
   }
-
-  
- 
-
-
 
     if (CHAIN_NUM != 1) {
       // create reference to second thread
