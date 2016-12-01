@@ -42,7 +42,25 @@ class MutatorClient {
       return 500;
     }
   }
+  int remove_node(const uint64_t id) {
+    Node toRem;
+    toRem.set_id(id);
 
+    Code code;
+
+    ClientContext context;
+    // The actual RPC.
+    Status status = stub_->remove_node(&context, toRem, &code);
+
+    // Act upon its status.
+    if (status.ok()) {
+      std::cout << "Code returned: " << code.code() << std::endl;
+      return code.code();
+    } else {
+      std::cout <<  "RPC failed" << std::endl;
+      return 500;
+    }
+  }
  private:
   std::unique_ptr<Mutator::Stub> stub_;
 
@@ -67,7 +85,7 @@ int send_to_next(const uint64_t opcode, const uint64_t id_a, const uint64_t id_b
 	  code = mutator.add_node(id_a);
           break;
         case REMOVE_NODE:
-	  //code = mutator.remove_node(id_a);
+	  code = mutator.remove_node(id_a);
           break;
         case ADD_EDGE:
 	  //code = mutator.add_edge(id_a, id_b);
@@ -84,7 +102,7 @@ int send_to_next(const uint64_t opcode, const uint64_t id_a, const uint64_t id_b
 	  code = mutator.add_node(id_a);
           break;
         case REMOVE_NODE:
-	  //code = mutator.remove_node(id_a);
+	  code = mutator.remove_node(id_a);
           break;
         case ADD_EDGE:
 	  //code = mutator.add_edge(id_a, id_b);
