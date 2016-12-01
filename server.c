@@ -185,6 +185,14 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       uint64_t arg_a_int = strtoll(tokens[index1 + 1].ptr, &endptr, 10);
       uint64_t arg_b_int = strtoll(tokens[index2 + 1].ptr, &endptr, 10);
 
+      // send operation to middle node
+      int code = send_to_next(ADD_EDGE, arg_a_int, arg_b_int);
+      // if acknowledgment code not OK (=200), respond without writing
+      if (code != 200) {
+         respond(c, code, 0, "");
+        return;
+      }
+
       // fix incase of things fucking up
       switch (add_edge(arg_a_int, arg_b_int)) {
         case 400:
@@ -217,6 +225,14 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       int index1 = argument_pos(tokens, arg_id);
       uint64_t arg_int = strtoll(tokens[index1 + 1].ptr, &endptr, 10);
 
+        // send operation to middle node
+      int code = send_to_next(REMOVE_NODE, arg_int, 0);
+      // if acknowledgment code not OK (=200), respond without writing
+      if (code != 200) {
+         respond(c, code, 0, "");
+        return;
+      }
+
       // if node does not exist
       if (remove_vertex(arg_int)) {
 	// append operation to log
@@ -247,6 +263,14 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       int index2 = argument_pos(tokens, arg_b);
       uint64_t arg_a_int = strtoll(tokens[index1 + 1].ptr, &endptr, 10);
       uint64_t arg_b_int = strtoll(tokens[index2 + 1].ptr, &endptr, 10);
+
+         // send operation to middle node
+      int code = send_to_next(REMOVE_EDGE, arg_a_int, arg_b_int);
+      // if acknowledgment code not OK (=200), respond without writing
+      if (code != 200) {
+         respond(c, code, 0, "");
+        return;
+      }
 
       // if edge does not exist
       if (remove_edge(arg_a_int, arg_b_int)) {
