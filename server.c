@@ -425,12 +425,13 @@ int main(int argc, char** argv) {
 
   const char *s_http_port = argv[(format? 2 : 1)];
   const char *devfile = argv[(format? 3 : 2)];
-
+  if (CHAIN_NUM == 1) {
   fd = open(devfile, O_RDWR);
   if (fd == -1) {
     fprintf(stderr, "Unable to open %s. Abort.\n", devfile);
     return 1;
   }
+}
 
   // get chain_num from environment
   CHAIN_NUM = atoi(getenv("CHAIN_NUM"));
