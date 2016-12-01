@@ -12,9 +12,9 @@
 //int CHAIN_NUM;
 
 // Define IPs of chain and port numbers listening
-#define IP_1 ("23.236.59.20:50051")
-#define IP_2 ("104.155.142.220:50051")
-#define IP_3 ("104.197.131.38:50051")
+#define IP_1 ("104.197.239.75:50051")
+#define IP_2 ("104.197.113.28:50051")
+#define IP_3 ("104.198.156.12:50051")
 
 #include <assert.h>
 #include <errno.h>
