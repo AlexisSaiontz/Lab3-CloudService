@@ -39,7 +39,7 @@ class TesterService final : public Mutator::Service {
          }
 	      // Apply change and reply
          result = add_vertex(node->id());
-         if (result != rcode){
+         if (result != r_code){
           fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
          }
          if (result) {
@@ -79,7 +79,7 @@ class TesterService final : public Mutator::Service {
         }
         // Apply change and reply
         result = remove_vertex(node->id());
-         if (result != rcode){
+         if (result != r_code){
           fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
          }
         if (result) {
@@ -121,7 +121,7 @@ class TesterService final : public Mutator::Service {
         // Apply change and reply
         result = add_edge(edge->id_a(), edge->id_b());
 
-        if (result != rcode){
+        if (result != r_code){
           fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
         }
 
@@ -164,7 +164,7 @@ class TesterService final : public Mutator::Service {
         // Apply change and reply
         result = remove_edge(edge->id_a(), edge->id_b());
 
-        if (result != rcode){
+        if (result != r_code){
           fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
         }
 
