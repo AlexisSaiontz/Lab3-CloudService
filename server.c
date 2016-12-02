@@ -1,12 +1,12 @@
 /*
- * server.c 
- *  
- * by Stylianos Rousoglou
- * and Alex Saiontz
- *
- * Provides the server functionality, including 
- * main, the request handler, and formatting json responses
- */
+* server.c
+*
+* by Stylianos Rousoglou
+* and Alex Saiontz
+*
+* Provides the server functionality, including
+* main, the request handler, and formatting json responses
+*/
 
 #include "mongoose.h"
 #include "headers.h"
@@ -15,11 +15,9 @@ extern vertex_map map;// hashtable storing the graph
 extern uint32_t generation;  // in-memory generation number
 extern uint32_t tail;        // in-memory tail of the log
 
-
 int fd;
 int CHAIN_NUM;
 char * NEXT_IP;
-
 
 // Responds to given connection with code and length bytes of body
 static void respond(struct mg_connection *c, int code, const int length, const char* body) {
@@ -127,12 +125,12 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
     }
 
     if (strncmp(hm->uri.p, "/api/v1/checkpoint", hm->uri.len)){
-    	find_id = find_json_token(tokens, arg_id);
-    	find_a = find_json_token(tokens, arg_a);
-    	find_b = find_json_token(tokens, arg_b);
+      find_id = find_json_token(tokens, arg_id);
+      find_a = find_json_token(tokens, arg_a);
+      find_b = find_json_token(tokens, arg_b);
     }
 
-    if (!strncmp(hm->uri.p, "/api/v1/add_node", hm->uri.len)) {     
+    if (!strncmp(hm->uri.p, "/api/v1/add_node", hm->uri.len)) {
       // if not head of chain
       if (CHAIN_NUM != 1) {
         respond(c, 400, 0, "");
@@ -152,23 +150,20 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       int code = send_to_next(ADD_NODE, arg_int, 0);
       // if acknowledgment code not OK (=200), respond without writing
       if (code != 200) {
-       respond(c, code, 0, "");
+        respond(c, code, 0, "");
         return;
       }
 
       // returns true if successfully added
       if (add_vertex(arg_int)) {
-      // append operation to log
-        // if (add_to_log(ADD_NODE, arg_int, 0)) {
-          response = make_json_one("node_id", 7, arg_int);
-          respond(c, 200, strlen(response), response);
-          free(response);
-      // } else respond(c, 507, 0, "");
-    } else {
+        response = make_json_one("node_id", 7, arg_int);
+        respond(c, 200, strlen(response), response);
+        free(response);
+      } else {
         // vertex already existed
         respond(c, 204, 0, "");
       }
-    } 
+    }
     else if (!strncmp(hm->uri.p, "/api/v1/add_edge", hm->uri.len)) {
       // if not head of chain
       if (CHAIN_NUM != 1) {
@@ -192,26 +187,22 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       int code = send_to_next(ADD_EDGE, arg_a_int, arg_b_int);
       // if acknowledgment code not OK (=200), respond without writing
       if (code != 200) {
-         respond(c, code, 0, "");
+        respond(c, code, 0, "");
         return;
       }
 
       // fix incase of things fucking up
       switch (add_edge(arg_a_int, arg_b_int)) {
         case 400:
-          respond(c, 400, 0, "");
+        respond(c, 400, 0, "");
         case 204:
-          respond(c, 204, 0, "");
+        respond(c, 204, 0, "");
         case 200:
-	  // append operation to log
-       //   if (add_to_log(ADD_EDGE, arg_a_int, arg_b_int)) {
-	    response = make_json_two("node_a_id", "node_b_id", 9, 9, arg_a_int, arg_b_int);
-	    respond(c, 200, strlen(response), response);
-            free(response);
-          // } 
-          // else respond(c, 507, 0, "");
+        response = make_json_two("node_a_id", "node_b_id", 9, 9, arg_a_int, arg_b_int);
+        respond(c, 200, strlen(response), response);
+        free(response);
       }
-    } 
+    }
     else if (!strncmp(hm->uri.p, "/api/v1/remove_node", hm->uri.len)) {
       // if not head of chain
       if (CHAIN_NUM != 1) {
@@ -229,26 +220,23 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       int index1 = argument_pos(tokens, arg_id);
       uint64_t arg_int = strtoll(tokens[index1 + 1].ptr, &endptr, 10);
 
-        // send operation to middle node
+      // send operation to middle node
       int code = send_to_next(REMOVE_NODE, arg_int, 0);
       // if acknowledgment code not OK (=200), respond without writing
       if (code != 200) {
-         respond(c, code, 0, "");
+        respond(c, code, 0, "");
         return;
       }
 
       // if node does not exist
       if (remove_vertex(arg_int)) {
-	// append operation to log
-        //if (add_to_log(REMOVE_NODE, arg_int, 0)) {
-	  response = make_json_one("node_id", 7, arg_int);
-          respond(c, 200, strlen(response), response);
-          free(response);
-//	} else respond(c, 507, 0, "");
+        response = make_json_one("node_id", 7, arg_int);
+        respond(c, 200, strlen(response), response);
+        free(response);
       } else {
         respond(c, 400, 0, "");
       }
-    } 
+    }
     else if (!strncmp(hm->uri.p, "/api/v1/remove_edge", hm->uri.len)) {
       // if not head of chain
       if (CHAIN_NUM != 1) {
@@ -268,26 +256,23 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       uint64_t arg_a_int = strtoll(tokens[index1 + 1].ptr, &endptr, 10);
       uint64_t arg_b_int = strtoll(tokens[index2 + 1].ptr, &endptr, 10);
 
-         // send operation to middle node
+      // send operation to middle node
       int code = send_to_next(REMOVE_EDGE, arg_a_int, arg_b_int);
       // if acknowledgment code not OK (=200), respond without writing
       if (code != 200) {
-         respond(c, code, 0, "");
+        respond(c, code, 0, "");
         return;
       }
 
       // if edge does not exist
       if (remove_edge(arg_a_int, arg_b_int)) {
-        // append operation to log
-     //   if (add_to_log(REMOVE_EDGE, arg_a_int, arg_b_int)) {
-	  response = make_json_two("node_a_id", "node_b_id", 9, 9, arg_a_int, arg_b_int);
-          respond(c, 200, strlen(response), response);
-          free(response);;
-//	} else respond(c, 507, 0, "");
+        response = make_json_two("node_a_id", "node_b_id", 9, 9, arg_a_int, arg_b_int);
+        respond(c, 200, strlen(response), response);
+        free(response);;
       } else {
         respond(c, 400, 0, "");
       }
-    } 
+    }
     else if(!strncmp(hm->uri.p, "/api/v1/get_node", hm->uri.len)) {
       // body does not contain expected key
       if(find_id == 0) {
@@ -301,8 +286,8 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       bool in_graph = get_node(arg_int);
       response = make_json_one("in_graph", 8, in_graph);
       respond(c, 200, strlen(response), response);
-      free(response);    
-    } 
+      free(response);
+    }
     else if(!strncmp(hm->uri.p, "/api/v1/get_edge", hm->uri.len)) {
       // body does not contain expected keys
       if(find_a == 0 || find_b == 0) {
@@ -323,9 +308,9 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
         bool in_graph = get_edge(arg_a_int, arg_b_int);
         response = make_json_one("in_graph", 8, in_graph);
         respond(c, 200, strlen(response), response);
-        free(response);    
+        free(response);
       }
-    } 
+    }
     else if(!strncmp(hm->uri.p, "/api/v1/get_neighbors", hm->uri.len)) {
       // body does not contain expected key
       if(find_id == 0) {
@@ -349,7 +334,7 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
         free(neighbors);
       }
 
-    } 
+    }
     else if(!strncmp(hm->uri.p, "/api/v1/shortest_path", hm->uri.len)) {
       // body does not contain expected keys
       if(find_a == 0 || find_b == 0) {
@@ -362,7 +347,7 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       int index2 = argument_pos(tokens, arg_b);
       long long arg_a_int = strtoll(tokens[index1 + 1].ptr, &endptr, 10);
       long long arg_b_int = strtoll(tokens[index2 + 1].ptr, &endptr, 10);
-      
+
       // if either node does not exist
       if(!ret_vertex(arg_a_int) || !ret_vertex(arg_b_int)) {
         respond(c, 400, 0, "");
@@ -378,17 +363,16 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       }
     }
     else if(!strncmp(hm->uri.p, "/api/v1/checkpoint", hm->uri.len)) {
-      
+
       int nsize = map.nsize;
       int esize = map.esize;
-      if ((CHECKPOINT_HEADER + nsize*(CHECKPOINT_NODE) 
-        + esize*(CHECKPOINT_EDGE)) > CHECKPOINT_AREA){
+      if ((CHECKPOINT_HEADER + nsize*(CHECKPOINT_NODE)
+      + esize*(CHECKPOINT_EDGE)) > CHECKPOINT_AREA){
         respond(c, 507, 0, "");
 
       }
       else {
         checkpoint_area *flat_graph = (checkpoint_area *) malloc(sizeof(struct checkpoint_area));
-    
 
         uint64_t *nodes = (uint64_t *) malloc(sizeof(uint64_t) * nsize);
         mem_edge *edges = (mem_edge *) malloc(sizeof(struct mem_edge) * esize);
@@ -401,9 +385,9 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
         make_checkpoint(flat_graph);
         docheckpoint(flat_graph);
         checkpoint_area *loaded = get_checkpoint();
-        respond(c, 200, 0, ""); 
-      } 
-    } 
+        respond(c, 200, 0, "");
+      }
+    }
     else {
       respond(c, 400, 0, "");
     }
@@ -412,8 +396,6 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
 
 int main(int argc, char** argv) {
 
-  //bool format = false;  // format flag specified?
-  
   bool ip = false; // is there an ip address flag?
   int ip_num;
   int http_num;
@@ -422,7 +404,7 @@ int main(int argc, char** argv) {
   if (argc != 4 && argc != 2) {
     fprintf(stderr, "Usage: ./cs426_graph_server -b <ipaddress> <portbnum> \n");
     return 1;
-  } 
+  }
   if (argc==4){
     ip = true;
     // is the first argument the -b flag?
@@ -439,21 +421,14 @@ int main(int argc, char** argv) {
     // there should be a -b flag, but it is not in the right place
     // or does not exist
     else {
-     fprintf(stderr, "Usage: ./cs426_graph_server -b <ipaddress> <portbnum> \n");
-    return 1;
+      fprintf(stderr, "Usage: ./cs426_graph_server -b <ipaddress> <portbnum> \n");
+      return 1;
     }
   }
-  // else if (argc == 4) {
-  //   if (strcmp(argv[1], "-f")) {
-  //     fprintf(stderr, "Usage: ./cs426_graph_server [-f] <port> <devfile>\n");
-  //     return 1;
-  //   } else {
-  //     format = true;
-  //   }
-  // }
+
   const char *ipaddress;
   const char *s_http_port;
-  
+
   if (ip){
     NEXT_IP = malloc(sizeof(char)*(strlen(RPC_PORT) + strlen(argv[ip_num])));
     strcpy(NEXT_IP, argv[ip_num]);
@@ -462,74 +437,45 @@ int main(int argc, char** argv) {
   }
   //there is no -b flag, so only the port number is given
   else {
-     s_http_port = argv[1];
+    s_http_port = argv[1];
   }
-  
-
-  // fd = open(devfile, O_RDWR);
-  // if (fd == -1) {
-  //   fprintf(stderr, "Unable to open %s. Abort.\n", devfile);
-  //   return 1;
-  // }
 
   // get chain_num from environment
   CHAIN_NUM = atoi(getenv("CHAIN_NUM"));
-  fprintf(stderr, "Chain num is %d\n", CHAIN_NUM); 
-  
-  struct mg_mgr mgr; 
+  fprintf(stderr, "Chain num is %d\n", CHAIN_NUM);
+
+  struct mg_mgr mgr;
   struct mg_connection *c;
 
-   // pass in void pointer
+  // pass in void pointer
   mg_mgr_init(&mgr, NULL);
 
   c = mg_bind(&mgr, s_http_port, ev_handler);
   mg_set_protocol_http_websocket(c);
 
-
   map.nsize = 0;
   map.esize = 0;
   map.table = (vertex **) malloc(SIZE * sizeof(vertex*));
-  
+
   int i;
   for (i = 0; i < SIZE; i++) (map.table)[i] = NULL;
 
- // Format option
-  // if (format) {
-  //   if (format_superblock()) {
-  //     fprintf(stderr, "Successfully formatted superblock\n");
-  //     clear_checkpoint_area();
-  //   } else {
-  //     fprintf(stderr, "Failed to format superblock\n");
-  //     return 1;
-  //   }
-  // } else { // normal startup
-  //     if (!normal_startup()) {
-  //       fprintf(stderr, "Normal startup failed. Abort\n");
-  //       return 1;
-  //     } else {
-  //       checkpoint_area *loaded = get_checkpoint();
-  //       if (loaded != NULL) buildmap(loaded);
-  //       tail = get_tail();
-  //     }
-  // }
+  if (CHAIN_NUM != 1) {
+    // create reference to second thread
+    pthread_t inc_x_thread;
+    int x;
 
-    if (CHAIN_NUM != 1) {
-      // create reference to second thread
-      pthread_t inc_x_thread;
-      int x;
-
-      fprintf(stderr, "In chain %d\n", CHAIN_NUM);
-      if(pthread_create(&inc_x_thread, NULL, serve_rpc, &x)) {
-        fprintf(stderr, "Error creating thread\n");
-        return 1;
-        }
-      }
-
-    for (;;) {
-      mg_mgr_poll(&mgr, 1000);
+    fprintf(stderr, "In chain %d\n", CHAIN_NUM);
+    if(pthread_create(&inc_x_thread, NULL, serve_rpc, &x)) {
+      fprintf(stderr, "Error creating thread\n");
+      return 1;
     }
-    mg_mgr_free(&mgr);
-
-
-    return 0;
   }
+
+  for (;;) {
+    mg_mgr_poll(&mgr, 1000);
+  }
+  mg_mgr_free(&mgr);
+
+  return 0;
+}

@@ -21,9 +21,9 @@ extern char* NEXT_IP;
 
 
 class MutatorClient {
- public:
+public:
   MutatorClient(std::shared_ptr<Channel> channel)
-      : stub_(Mutator::NewStub(channel)) {}
+  : stub_(Mutator::NewStub(channel)) {}
 
   int add_node(const uint64_t id) {
     Node toAdd;
@@ -103,7 +103,7 @@ class MutatorClient {
       return 500;
     }
   }
- private:
+private:
   std::unique_ptr<Mutator::Stub> stub_;
 
 };
@@ -117,45 +117,45 @@ int send_to_next(const uint64_t opcode, const uint64_t id_a, const uint64_t id_b
   MutatorClient mutator(grpc::CreateChannel(
     (NEXT_IP), grpc::InsecureChannelCredentials()));
 
-  int code;
+    int code;
 
-  switch (CHAIN_NUM) {
-    // head of the chain, client only
-    case 1:
+    switch (CHAIN_NUM) {
+      // head of the chain, client only
+      case 1:
       switch(opcode) {
         case ADD_NODE:
-	  code = mutator.add_node(id_a);
-          break;
+        code = mutator.add_node(id_a);
+        break;
         case REMOVE_NODE:
-	  code = mutator.remove_node(id_a);
-          break;
+        code = mutator.remove_node(id_a);
+        break;
         case ADD_EDGE:
-	  code = mutator.add_edge(id_a, id_b);
-          break;
+        code = mutator.add_edge(id_a, id_b);
+        break;
         case REMOVE_EDGE:
-	  code = mutator.remove_edge(id_a, id_b);
-          break;
+        code = mutator.remove_edge(id_a, id_b);
+        break;
       }
       break;
-    // middle of the chain, client & server
-    case 2:
+      // middle of the chain, client & server
+      case 2:
       switch(opcode) {
         case ADD_NODE:
-	  code = mutator.add_node(id_a);
-          break;
+        code = mutator.add_node(id_a);
+        break;
         case REMOVE_NODE:
-	  code = mutator.remove_node(id_a);
-          break;
+        code = mutator.remove_node(id_a);
+        break;
         case ADD_EDGE:
-	  code = mutator.add_edge(id_a, id_b);
-          break;
+        code = mutator.add_edge(id_a, id_b);
+        break;
         case REMOVE_EDGE:
-	  code = mutator.remove_edge(id_a, id_b);
-          break;
+        code = mutator.remove_edge(id_a, id_b);
+        break;
       }
       break;
+    }
+
+    std::cout << "Client received status code: " << code << std::endl;
+    return code;
   }
-  
-  std::cout << "Client received status code: " << code << std::endl;
-  return code;
-}
