@@ -17,6 +17,8 @@ using mutate::Code;
 using mutate::Mutator;
 
 extern int CHAIN_NUM;
+extern char* NEXT_IP;
+
 
 class MutatorClient {
  public:
@@ -113,7 +115,7 @@ int send_to_next(const uint64_t opcode, const uint64_t id_a, const uint64_t id_b
   // (use of InsecureChannelCredentials()).
 
   MutatorClient mutator(grpc::CreateChannel(
-    (CHAIN_NUM == 1 ? IP_2 : IP_3), grpc::InsecureChannelCredentials()));
+    (NEXT_IP), grpc::InsecureChannelCredentials()));
 
   int code;
 

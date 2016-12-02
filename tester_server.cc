@@ -18,6 +18,7 @@ using mutate::Code;
 using mutate::Mutator;
 
 extern int CHAIN_NUM;
+extern char* NEXT_IP;
 
 // define the service class.
 class TesterService final : public Mutator::Service {

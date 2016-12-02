@@ -15,8 +15,11 @@ extern vertex_map map;// hashtable storing the graph
 extern uint32_t generation;  // in-memory generation number
 extern uint32_t tail;        // in-memory tail of the log
 
+
 int fd;
 int CHAIN_NUM;
+char * NEXT_IP;
+
 
 // Responds to given connection with code and length bytes of body
 static void respond(struct mg_connection *c, int code, const int length, const char* body) {
@@ -409,29 +412,44 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
 
 int main(int argc, char** argv) {
 
-  bool format = false;  // format flag specified?
- 
+  //bool format = false;  // format flag specified?
+  
+  bool ip = false; // is there an ip address flag?
+
   // ensure correct number of arguments
-  if (argc != 3 && argc != 4) {
-    fprintf(stderr, "Usage: ./cs426_graph_server [-f] <port> <devfile>\n");
+  if (argc != 4 && argc != 2) {
+    fprintf(stderr, "Usage: ./cs426_graph_server -b <ipaddress> <portbnum> \n");
     return 1;
-  } else if (argc == 4) {
-    if (strcmp(argv[1], "-f")) {
-      fprintf(stderr, "Usage: ./cs426_graph_server [-f] <port> <devfile>\n");
-      return 1;
-    } else {
-      format = true;
-    }
+  } 
+  if (argc==4){
+    ip = true;
   }
-
-  const char *s_http_port = argv[(format? 2 : 1)];
-  const char *devfile = argv[(format? 3 : 2)];
-
-  fd = open(devfile, O_RDWR);
-  if (fd == -1) {
-    fprintf(stderr, "Unable to open %s. Abort.\n", devfile);
-    return 1;
+  // else if (argc == 4) {
+  //   if (strcmp(argv[1], "-f")) {
+  //     fprintf(stderr, "Usage: ./cs426_graph_server [-f] <port> <devfile>\n");
+  //     return 1;
+  //   } else {
+  //     format = true;
+  //   }
+  // }
+  const char *ipaddress;
+  const char *s_http_port;
+  if (ip){
+    NEXT_IP = malloc(sizeof(char)*(strlen(RPC_PORT) + strlen(argv[2])));
+    strcpy(NEXT_IP, argv[2]);
+    strcat(NEXT_IP, RPC_PORT);
+    s_http_port = argv[3];
   }
+  else {
+     s_http_port = argv[1];
+  }
+  
+
+  // fd = open(devfile, O_RDWR);
+  // if (fd == -1) {
+  //   fprintf(stderr, "Unable to open %s. Abort.\n", devfile);
+  //   return 1;
+  // }
 
   // get chain_num from environment
   CHAIN_NUM = atoi(getenv("CHAIN_NUM"));
