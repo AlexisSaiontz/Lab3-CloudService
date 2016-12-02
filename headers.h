@@ -16,7 +16,8 @@
 // #define IP_2 ("104.197.113.28:50051")
 // #define IP_3 ("104.198.156.12:50051")
 #define RPC_PORT (":50051")
-
+#define B_FLAG ("-b")
+ 
 #include <assert.h>
 #include <errno.h>
 #include <fcntl.h>

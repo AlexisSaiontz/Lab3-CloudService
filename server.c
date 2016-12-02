@@ -415,6 +415,8 @@ int main(int argc, char** argv) {
   //bool format = false;  // format flag specified?
   
   bool ip = false; // is there an ip address flag?
+  int ip_num;
+  int http_num;
 
   // ensure correct number of arguments
   if (argc != 4 && argc != 2) {
@@ -423,6 +425,23 @@ int main(int argc, char** argv) {
   } 
   if (argc==4){
     ip = true;
+    // is the first argument the -b flag?
+    if (strcmp(B_FLAG, argv[1]){
+      ip_num = 2;
+      http_num = 3;
+    }
+    // is the second argument the -b flag?
+    else if (!strcmp(B_FLAG, argv[2])){
+      // set indexes appropriately
+      ip_num = 3;
+      http_num = 1;
+    }
+    // there should be a -b flag, but it is not in the right place
+    // or does not exist
+    else {
+     fprintf(stderr, "Usage: ./cs426_graph_server -b <ipaddress> <portbnum> \n");
+    return 1;
+    }
   }
   // else if (argc == 4) {
   //   if (strcmp(argv[1], "-f")) {
@@ -434,12 +453,14 @@ int main(int argc, char** argv) {
   // }
   const char *ipaddress;
   const char *s_http_port;
+  
   if (ip){
-    NEXT_IP = malloc(sizeof(char)*(strlen(RPC_PORT) + strlen(argv[2])));
-    strcpy(NEXT_IP, argv[2]);
+    NEXT_IP = malloc(sizeof(char)*(strlen(RPC_PORT) + strlen(argv[ip_num])));
+    strcpy(NEXT_IP, argv[ip_num]);
     strcat(NEXT_IP, RPC_PORT);
-    s_http_port = argv[3];
+    s_http_port = argv[http_num];
   }
+  //there is no -b flag, so only the port number is given
   else {
      s_http_port = argv[1];
   }
