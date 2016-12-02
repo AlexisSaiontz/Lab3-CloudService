@@ -69,19 +69,19 @@ class Mutator GRPC_FINAL {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>> Asyncremove_node(::grpc::ClientContext* context, const ::mutate::Node& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>>(Asyncremove_nodeRaw(context, request, cq));
     }
-    virtual ::grpc::Status add_edge(::grpc::ClientContext* context, const ::mutate::Edge& request, ::mutate::Code* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>> Asyncadd_edge(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>>(Asyncadd_edgeRaw(context, request, cq));
+    virtual ::grpc::Status add_edge_alt(::grpc::ClientContext* context, const ::mutate::Edge& request, ::mutate::Code* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>> Asyncadd_edge_alt(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>>(Asyncadd_edge_altRaw(context, request, cq));
     }
-    virtual ::grpc::Status remove_edge(::grpc::ClientContext* context, const ::mutate::Edge& request, ::mutate::Code* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>> Asyncremove_edge(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>>(Asyncremove_edgeRaw(context, request, cq));
+    virtual ::grpc::Status remove_edge_alt(::grpc::ClientContext* context, const ::mutate::Edge& request, ::mutate::Code* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>> Asyncremove_edge_alt(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>>(Asyncremove_edge_altRaw(context, request, cq));
     }
   private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>* Asyncadd_nodeRaw(::grpc::ClientContext* context, const ::mutate::Node& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>* Asyncremove_nodeRaw(::grpc::ClientContext* context, const ::mutate::Node& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>* Asyncadd_edgeRaw(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>* Asyncremove_edgeRaw(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>* Asyncadd_edge_altRaw(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::mutate::Code>* Asyncremove_edge_altRaw(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub GRPC_FINAL : public StubInterface {
    public:
@@ -94,25 +94,25 @@ class Mutator GRPC_FINAL {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mutate::Code>> Asyncremove_node(::grpc::ClientContext* context, const ::mutate::Node& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mutate::Code>>(Asyncremove_nodeRaw(context, request, cq));
     }
-    ::grpc::Status add_edge(::grpc::ClientContext* context, const ::mutate::Edge& request, ::mutate::Code* response) GRPC_OVERRIDE;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mutate::Code>> Asyncadd_edge(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mutate::Code>>(Asyncadd_edgeRaw(context, request, cq));
+    ::grpc::Status add_edge_alt(::grpc::ClientContext* context, const ::mutate::Edge& request, ::mutate::Code* response) GRPC_OVERRIDE;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mutate::Code>> Asyncadd_edge_alt(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mutate::Code>>(Asyncadd_edge_altRaw(context, request, cq));
     }
-    ::grpc::Status remove_edge(::grpc::ClientContext* context, const ::mutate::Edge& request, ::mutate::Code* response) GRPC_OVERRIDE;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mutate::Code>> Asyncremove_edge(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mutate::Code>>(Asyncremove_edgeRaw(context, request, cq));
+    ::grpc::Status remove_edge_alt(::grpc::ClientContext* context, const ::mutate::Edge& request, ::mutate::Code* response) GRPC_OVERRIDE;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mutate::Code>> Asyncremove_edge_alt(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::mutate::Code>>(Asyncremove_edge_altRaw(context, request, cq));
     }
 
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
     ::grpc::ClientAsyncResponseReader< ::mutate::Code>* Asyncadd_nodeRaw(::grpc::ClientContext* context, const ::mutate::Node& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
     ::grpc::ClientAsyncResponseReader< ::mutate::Code>* Asyncremove_nodeRaw(::grpc::ClientContext* context, const ::mutate::Node& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
-    ::grpc::ClientAsyncResponseReader< ::mutate::Code>* Asyncadd_edgeRaw(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
-    ::grpc::ClientAsyncResponseReader< ::mutate::Code>* Asyncremove_edgeRaw(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
+    ::grpc::ClientAsyncResponseReader< ::mutate::Code>* Asyncadd_edge_altRaw(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
+    ::grpc::ClientAsyncResponseReader< ::mutate::Code>* Asyncremove_edge_altRaw(::grpc::ClientContext* context, const ::mutate::Edge& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
     const ::grpc::RpcMethod rpcmethod_add_node_;
     const ::grpc::RpcMethod rpcmethod_remove_node_;
-    const ::grpc::RpcMethod rpcmethod_add_edge_;
-    const ::grpc::RpcMethod rpcmethod_remove_edge_;
+    const ::grpc::RpcMethod rpcmethod_add_edge_alt_;
+    const ::grpc::RpcMethod rpcmethod_remove_edge_alt_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -123,8 +123,8 @@ class Mutator GRPC_FINAL {
     // Sends a greeting
     virtual ::grpc::Status add_node(::grpc::ServerContext* context, const ::mutate::Node* request, ::mutate::Code* response);
     virtual ::grpc::Status remove_node(::grpc::ServerContext* context, const ::mutate::Node* request, ::mutate::Code* response);
-    virtual ::grpc::Status add_edge(::grpc::ServerContext* context, const ::mutate::Edge* request, ::mutate::Code* response);
-    virtual ::grpc::Status remove_edge(::grpc::ServerContext* context, const ::mutate::Edge* request, ::mutate::Code* response);
+    virtual ::grpc::Status add_edge_alt(::grpc::ServerContext* context, const ::mutate::Edge* request, ::mutate::Code* response);
+    virtual ::grpc::Status remove_edge_alt(::grpc::ServerContext* context, const ::mutate::Edge* request, ::mutate::Code* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_add_node : public BaseClass {
@@ -167,46 +167,46 @@ class Mutator GRPC_FINAL {
     }
   };
   template <class BaseClass>
-  class WithAsyncMethod_add_edge : public BaseClass {
+  class WithAsyncMethod_add_edge_alt : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithAsyncMethod_add_edge() {
+    WithAsyncMethod_add_edge_alt() {
       ::grpc::Service::MarkMethodAsync(2);
     }
-    ~WithAsyncMethod_add_edge() GRPC_OVERRIDE {
+    ~WithAsyncMethod_add_edge_alt() GRPC_OVERRIDE {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status add_edge(::grpc::ServerContext* context, const ::mutate::Edge* request, ::mutate::Code* response) GRPC_FINAL GRPC_OVERRIDE {
+    ::grpc::Status add_edge_alt(::grpc::ServerContext* context, const ::mutate::Edge* request, ::mutate::Code* response) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void Requestadd_edge(::grpc::ServerContext* context, ::mutate::Edge* request, ::grpc::ServerAsyncResponseWriter< ::mutate::Code>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void Requestadd_edge_alt(::grpc::ServerContext* context, ::mutate::Edge* request, ::grpc::ServerAsyncResponseWriter< ::mutate::Code>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
-  class WithAsyncMethod_remove_edge : public BaseClass {
+  class WithAsyncMethod_remove_edge_alt : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithAsyncMethod_remove_edge() {
+    WithAsyncMethod_remove_edge_alt() {
       ::grpc::Service::MarkMethodAsync(3);
     }
-    ~WithAsyncMethod_remove_edge() GRPC_OVERRIDE {
+    ~WithAsyncMethod_remove_edge_alt() GRPC_OVERRIDE {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status remove_edge(::grpc::ServerContext* context, const ::mutate::Edge* request, ::mutate::Code* response) GRPC_FINAL GRPC_OVERRIDE {
+    ::grpc::Status remove_edge_alt(::grpc::ServerContext* context, const ::mutate::Edge* request, ::mutate::Code* response) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void Requestremove_edge(::grpc::ServerContext* context, ::mutate::Edge* request, ::grpc::ServerAsyncResponseWriter< ::mutate::Code>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void Requestremove_edge_alt(::grpc::ServerContext* context, ::mutate::Edge* request, ::grpc::ServerAsyncResponseWriter< ::mutate::Code>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_add_node<WithAsyncMethod_remove_node<WithAsyncMethod_add_edge<WithAsyncMethod_remove_edge<Service > > > > AsyncService;
+  typedef WithAsyncMethod_add_node<WithAsyncMethod_remove_node<WithAsyncMethod_add_edge_alt<WithAsyncMethod_remove_edge_alt<Service > > > > AsyncService;
   template <class BaseClass>
   class WithGenericMethod_add_node : public BaseClass {
    private:
@@ -242,35 +242,35 @@ class Mutator GRPC_FINAL {
     }
   };
   template <class BaseClass>
-  class WithGenericMethod_add_edge : public BaseClass {
+  class WithGenericMethod_add_edge_alt : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithGenericMethod_add_edge() {
+    WithGenericMethod_add_edge_alt() {
       ::grpc::Service::MarkMethodGeneric(2);
     }
-    ~WithGenericMethod_add_edge() GRPC_OVERRIDE {
+    ~WithGenericMethod_add_edge_alt() GRPC_OVERRIDE {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status add_edge(::grpc::ServerContext* context, const ::mutate::Edge* request, ::mutate::Code* response) GRPC_FINAL GRPC_OVERRIDE {
+    ::grpc::Status add_edge_alt(::grpc::ServerContext* context, const ::mutate::Edge* request, ::mutate::Code* response) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
   };
   template <class BaseClass>
-  class WithGenericMethod_remove_edge : public BaseClass {
+  class WithGenericMethod_remove_edge_alt : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithGenericMethod_remove_edge() {
+    WithGenericMethod_remove_edge_alt() {
       ::grpc::Service::MarkMethodGeneric(3);
     }
-    ~WithGenericMethod_remove_edge() GRPC_OVERRIDE {
+    ~WithGenericMethod_remove_edge_alt() GRPC_OVERRIDE {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status remove_edge(::grpc::ServerContext* context, const ::mutate::Edge* request, ::mutate::Code* response) GRPC_FINAL GRPC_OVERRIDE {
+    ::grpc::Status remove_edge_alt(::grpc::ServerContext* context, const ::mutate::Edge* request, ::mutate::Code* response) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }

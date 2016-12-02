@@ -12,10 +12,12 @@
 //int CHAIN_NUM;
 
 // Define IPs of chain and port numbers listening
-#define IP_1 ("23.236.59.20:50051")
-#define IP_2 ("104.155.142.220:50051")
-#define IP_3 ("104.197.131.38:50051")
-
+// #define IP_1 ("104.197.239.75:50051")
+// #define IP_2 ("104.197.113.28:50051")
+// #define IP_3 ("104.198.156.12:50051")
+#define RPC_PORT (":50051")
+#define B_FLAG ("-b")
+ 
 #include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -39,6 +41,9 @@
 EXTERNC int send_to_next(const uint64_t, const uint64_t, const uint64_t);
 EXTERNC void *serve_rpc(void*);
 EXTERNC bool add_vertex(unsigned long);
+EXTERNC bool remove_vertex(unsigned long);
+EXTERNC int add_edge(unsigned long, unsigned long);
+EXTERNC bool remove_edge(unsigned long, unsigned long);
 #undef EXTERNC
 
 /*
