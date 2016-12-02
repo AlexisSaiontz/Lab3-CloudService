@@ -446,6 +446,7 @@ int main(int argc, char** argv) {
   c = mg_bind(&mgr, s_http_port, ev_handler);
   mg_set_protocol_http_websocket(c);
 
+
   map.nsize = 0;
   map.esize = 0;
   map.table = (vertex **) malloc(SIZE * sizeof(vertex*));
