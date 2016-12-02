@@ -61,7 +61,7 @@ class MutatorClient {
       return 500;
     }
   }
-  int add_edge(const uint64_t id_a, const uint64_t id_a) {
+  int add_edge(const uint64_t id_a, const uint64_t id_b) {
     Edge toAdd;
     toAdd.set_id_a(id_a);
     toAdd.set_id_b(id_b);
@@ -70,7 +70,7 @@ class MutatorClient {
 
     ClientContext context;
     // The actual RPC.
-    Status status = stub_->add_edge(&context, toAdd, &code);
+    Status status = stub_->add_edge_alt(&context, toAdd, &code);
 
     // Act upon its status.
     if (status.ok()) {
@@ -81,7 +81,7 @@ class MutatorClient {
       return 500;
     }
   }
-  int remove_edge(const uint64_t id_a, const uint64_t id_a) {
+  int remove_edge(const uint64_t id_a, const uint64_t id_b) {
     Edge toRem;
     toRem.set_id_a(id_a);
     toRem.set_id_b(id_b);
@@ -90,7 +90,7 @@ class MutatorClient {
 
     ClientContext context;
     // The actual RPC.
-    Status status = stub_->remove_edge(&context, toRem, &code);
+    Status status = stub_->remove_edge_alt(&context, toRem, &code);
 
     // Act upon its status.
     if (status.ok()) {
@@ -128,10 +128,10 @@ int send_to_next(const uint64_t opcode, const uint64_t id_a, const uint64_t id_b
 	  code = mutator.remove_node(id_a);
           break;
         case ADD_EDGE:
-	  //code = mutator.add_edge(id_a, id_b);
+	  code = mutator.add_edge(id_a, id_b);
           break;
         case REMOVE_EDGE:
-	  //code = mutator.remove_edge(id_a, id_b);
+	  code = mutator.remove_edge(id_a, id_b);
           break;
       }
       break;

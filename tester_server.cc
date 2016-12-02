@@ -96,10 +96,10 @@ class TesterService final : public Mutator::Service {
     }  
   }
 
-  Status add_edge(ServerContext* context, const Edge* edge,
+  Status add_edge_alt(ServerContext* context, const Edge* edge,
     Code* reply) override {
     printf("Received: Add edge %d - %d\n", (int) edge->id_a(), (int) edge->id_b());
-    bool result;
+    int result;
     int r_code;
     switch(CHAIN_NUM) {
       case 2: {
@@ -111,30 +111,30 @@ class TesterService final : public Mutator::Service {
           return Status::CANCELLED;
         }
         // Apply change and reply
-        result = add_edge(edge->id_a(), edge->id_b();
-        if (result) {
+        result = add_edge(edge->id_a(), edge->id_b());
+        if (result == 200) {
           printf("Added edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
           reply->set_code(200);
         } else {
-          reply->set_code(204);
+          reply->set_code(result);
         }
         return Status::OK;
       }
       case 3: {
         // Apply change and reply
-       result = add_edge(edge->id_a(), edge->id_b();
-       if (result) {
+       result = add_edge(edge->id_a(), edge->id_b());
+       if (result==200) {
         printf("Added edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
         reply->set_code(200);
        } else {
-         reply->set_code(204);
+         reply->set_code(result);
        }
        return Status::OK;
      }
     }
   }
 
-  Status remove_edge(ServerContext* context, const Edge* edge,
+  Status remove_edge_alt(ServerContext* context, const Edge* edge,
                   Code* reply) override {
     printf("Received: Remove edge %d - %d\n", (int) edge->id_a(), (int) edge->id_b());
     bool result;
@@ -149,7 +149,7 @@ class TesterService final : public Mutator::Service {
           return Status::CANCELLED;
         }
         // Apply change and reply
-        result = remove_edge(edge->id_a(), edge->id_b();
+        result = remove_edge(edge->id_a(), edge->id_b());
         if (result) {
           printf("Removed edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
           reply->set_code(200);
@@ -160,7 +160,7 @@ class TesterService final : public Mutator::Service {
       }
       case 3: {
         // Apply change and reply
-       result = remove_edge(edge->id_a(), edge->id_b();
+       result = remove_edge(edge->id_a(), edge->id_b());
        if (result) {
         printf("Removed edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
         reply->set_code(200);
