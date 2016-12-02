@@ -132,8 +132,8 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
     if (!strncmp(hm->uri.p, "/api/v1/add_node", hm->uri.len)) {     
       // if not head of chain
       if (CHAIN_NUM != 1) {
-	respond(c, 400, 0, "");
-	return;
+        respond(c, 400, 0, "");
+        return;
       }
       // body does not contain expected key
       if (find_id == 0) {
@@ -149,19 +149,19 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       int code = send_to_next(ADD_NODE, arg_int, 0);
       // if acknowledgment code not OK (=200), respond without writing
       if (code != 200) {
-	respond(c, code, 0, "");
+       respond(c, code, 0, "");
         return;
       }
 
       // returns true if successfully added
       if (add_vertex(arg_int)) {
-	// append operation to log
-	if (add_to_log(ADD_NODE, arg_int, 0)) {
+      // append operation to log
+        if (add_to_log(ADD_NODE, arg_int, 0)) {
           response = make_json_one("node_id", 7, arg_int);
           respond(c, 200, strlen(response), response);
           free(response);
-	} else respond(c, 507, 0, "");
-      } else {
+      } else respond(c, 507, 0, "");
+    } else {
         // vertex already existed
         respond(c, 204, 0, "");
       }
@@ -478,8 +478,8 @@ int main(int argc, char** argv) {
 
       fprintf(stderr, "In chain %d\n", CHAIN_NUM);
       if(pthread_create(&inc_x_thread, NULL, serve_rpc, &x)) {
-  fprintf(stderr, "Error creating thread\n");
-  return 1;
+        fprintf(stderr, "Error creating thread\n");
+        return 1;
       }
     }
 

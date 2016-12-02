@@ -40,6 +40,8 @@ EXTERNC int send_to_next(const uint64_t, const uint64_t, const uint64_t);
 EXTERNC void *serve_rpc(void*);
 EXTERNC bool add_vertex(unsigned long);
 EXTERNC bool remove_vertex(unsigned long);
+EXTERNC bool add_edge(unsigned long, unsigned long);
+EXTERNC bool remove_edge(unsigned long, unsigned long);
 #undef EXTERNC
 
 /*

@@ -24,95 +24,152 @@ class TesterService final : public Mutator::Service {
   
   Status add_node(ServerContext* context, const Node* node,
                   Code* reply) override {
-    std::cout <<  "HERE!" << std::endl;
     bool result;
     int r_code;
     switch(CHAIN_NUM) {
         case 2: {
-
-	  // First make request to tail
-	  r_code = send_to_next(ADD_NODE, node->id(), 0);
-	  // 500 is designated for RPC failures
-	  if (r_code == 500) {
-	    reply->set_code(500);
-	    return Status::CANCELLED;
-	  }
+        // First make request to tail
+          r_code = send_to_next(ADD_NODE, node->id(), 0);
+	       // 500 is designated for RPC failures
+          if (r_code == 500) {
+           reply->set_code(500);
+           return Status::CANCELLED;
+         }
 	  // Apply change and reply
-	  result = add_vertex(node->id());
-          if (result) {
-            printf("Added node %d\n", (int) node->id());
-            reply->set_code(200);
-          } else {
-            reply->set_code(204);
-          }
-	  return Status::OK;
-	}
-	case 3: {
+         result = add_vertex(node->id());
+         if (result) {
+          printf("Added node %d\n", (int) node->id());
+          reply->set_code(200);
+        } else {
+          reply->set_code(204);
+        }
+        return Status::OK;
+      }
+      case 3: {
 	  // Apply change and reply
-	  result = add_vertex(node->id());
-	  if (result) {
-	    printf("Added node %d\n", (int) node->id());
-	    reply->set_code(200);
-	  } else {
-	    reply->set_code(204);
-	  }
-	  return Status::OK;
-	}
+       result = add_vertex(node->id());
+       if (result) {
+         printf("Added node %d\n", (int) node->id());
+         reply->set_code(200);
+       } else {
+         reply->set_code(204);
+       }
+       return Status::OK;
+     }
     }   
   }
 
   Status remove_node(ServerContext* context, const Node* node,
 		     Code* reply) override {
-       bool result;
+    bool result;
     int r_code;
     switch(CHAIN_NUM) {
-        case 2: {
-    // First make request to tail
-    r_code = send_to_next(REMOVE_NODE, node->id(), 0);
-    // 500 is designated for RPC failures
-    if (r_code == 500) {
-      reply->set_code(500);
-      return Status::CANCELLED;
-    }
-    // Apply change and reply
-    result = remove_vertex(node->id());
-          if (result) {
-            printf("Removed node %d\n", (int) node->id());
-            reply->set_code(200);
-          } else {
-            reply->set_code(204);
-          }
-    return Status::OK;
-  }
-  case 3: {
-    // Apply change and reply
-    result = remove_vertex(node->id());
-    if (result) {
-      printf("Removed node %d\n", (int) node->id());
-      reply->set_code(200);
-    } else {
-      reply->set_code(204);
-    }
-    return Status::OK;
-  }
+      case 2: {
+        // First make request to tail
+        r_code = send_to_next(REMOVE_NODE, node->id(), 0);
+        // 500 is designated for RPC failures
+        if (r_code == 500) {
+          reply->set_code(500);
+          return Status::CANCELLED;
+        }
+        // Apply change and reply
+        result = remove_vertex(node->id());
+        if (result) {
+          printf("Removed node %d\n", (int) node->id());
+          reply->set_code(200);
+        } else {
+          reply->set_code(204);
+        }
+        return Status::OK;
+      }
+      case 3: {
+        // Apply change and reply
+        result = remove_vertex(node->id());
+        if (result) {
+          printf("Removed node %d\n", (int) node->id());
+          reply->set_code(200);
+        } else {
+          reply->set_code(204);
+        }
+        return Status::OK;
+      }
     }  
-
-
-
   }
 
   Status add_edge(ServerContext* context, const Edge* edge,
-                  Code* reply) override {
+    Code* reply) override {
     printf("Received: Add edge %d - %d\n", (int) edge->id_a(), (int) edge->id_b());
-    reply->set_code(300);
-    return Status::OK;
+    bool result;
+    int r_code;
+    switch(CHAIN_NUM) {
+      case 2: {
+        // First make request to tail
+        r_code = send_to_next(ADD_EDGE, edge->id_a(), edge->id_b());
+         // 500 is designated for RPC failures
+        if (r_code == 500) {
+          reply->set_code(500);
+          return Status::CANCELLED;
+        }
+        // Apply change and reply
+        result = add_edge(edge->id_a(), edge->id_b();
+        if (result) {
+          printf("Added edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
+          reply->set_code(200);
+        } else {
+          reply->set_code(204);
+        }
+        return Status::OK;
+      }
+      case 3: {
+        // Apply change and reply
+       result = add_edge(edge->id_a(), edge->id_b();
+       if (result) {
+        printf("Added edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
+        reply->set_code(200);
+       } else {
+         reply->set_code(204);
+       }
+       return Status::OK;
+     }
+    }
   }
 
   Status remove_edge(ServerContext* context, const Edge* edge,
                   Code* reply) override {
-    printf("Received: Remove edge %d - %d\n", (int) edge->id_a(), (int) edge->id_b()); 
-    reply->set_code(300);
-    return Status::OK;
+    printf("Received: Remove edge %d - %d\n", (int) edge->id_a(), (int) edge->id_b());
+    bool result;
+    int r_code;
+    switch(CHAIN_NUM) {
+      case 2: {
+        // First make request to tail
+        r_code = send_to_next(REMOVE_EDGE, edge->id_a(), edge->id_b());
+         // 500 is designated for RPC failures
+        if (r_code == 500) {
+          reply->set_code(500);
+          return Status::CANCELLED;
+        }
+        // Apply change and reply
+        result = remove_edge(edge->id_a(), edge->id_b();
+        if (result) {
+          printf("Removed edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
+          reply->set_code(200);
+        } else {
+          reply->set_code(204);
+        }
+        return Status::OK;
+      }
+      case 3: {
+        // Apply change and reply
+       result = remove_edge(edge->id_a(), edge->id_b();
+       if (result) {
+        printf("Removed edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
+        reply->set_code(200);
+       } else {
+         reply->set_code(204);
+       }
+       return Status::OK;
+     }
+    }
   }
 };
 
