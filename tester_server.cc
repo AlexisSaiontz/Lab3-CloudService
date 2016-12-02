@@ -38,7 +38,7 @@ class TesterService final : public Mutator::Service {
 	  // Apply change and reply
          result = add_vertex(node->id());
          if (result) {
-          printf("Added node %d\n", (int) node->id());
+         // printf("Added node %d\n", (int) node->id());
           reply->set_code(200);
         } else {
           reply->set_code(204);
@@ -49,7 +49,7 @@ class TesterService final : public Mutator::Service {
 	  // Apply change and reply
        result = add_vertex(node->id());
        if (result) {
-         printf("Added node %d\n", (int) node->id());
+       //  printf("Added node %d\n", (int) node->id());
          reply->set_code(200);
        } else {
          reply->set_code(204);
@@ -75,7 +75,7 @@ class TesterService final : public Mutator::Service {
         // Apply change and reply
         result = remove_vertex(node->id());
         if (result) {
-          printf("Removed node %d\n", (int) node->id());
+       //   printf("Removed node %d\n", (int) node->id());
           reply->set_code(200);
         } else {
           reply->set_code(400);
@@ -86,7 +86,7 @@ class TesterService final : public Mutator::Service {
         // Apply change and reply
         result = remove_vertex(node->id());
         if (result) {
-          printf("Removed node %d\n", (int) node->id());
+     //     printf("Removed node %d\n", (int) node->id());
           reply->set_code(200);
         } else {
           reply->set_code(400);
@@ -98,7 +98,7 @@ class TesterService final : public Mutator::Service {
 
   Status add_edge_alt(ServerContext* context, const Edge* edge,
     Code* reply) override {
-    printf("Received: Add edge %d - %d\n", (int) edge->id_a(), (int) edge->id_b());
+    //printf("Received: Add edge %d - %d\n", (int) edge->id_a(), (int) edge->id_b());
     int result;
     int r_code;
     switch(CHAIN_NUM) {
@@ -114,7 +114,7 @@ class TesterService final : public Mutator::Service {
         result = add_edge(edge->id_a(), edge->id_b());
 
         if (result == 200) {
-          printf("Added edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
+        //  printf("Added edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
           reply->set_code(200);
         } else {
           reply->set_code(result);
@@ -125,7 +125,7 @@ class TesterService final : public Mutator::Service {
         // Apply change and reply
        result = add_edge(edge->id_a(), edge->id_b());
        if (result==200) {
-        printf("Added edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
+      //  printf("Added edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
         reply->set_code(200);
        } else {
          reply->set_code(result);
@@ -137,7 +137,7 @@ class TesterService final : public Mutator::Service {
 
   Status remove_edge_alt(ServerContext* context, const Edge* edge,
                   Code* reply) override {
-    printf("Received: Remove edge %d - %d\n", (int) edge->id_a(), (int) edge->id_b());
+   // printf("Received: Remove edge %d - %d\n", (int) edge->id_a(), (int) edge->id_b());
     bool result;
     int r_code;
     switch(CHAIN_NUM) {
@@ -152,7 +152,7 @@ class TesterService final : public Mutator::Service {
         // Apply change and reply
         result = remove_edge(edge->id_a(), edge->id_b());
         if (result) {
-          printf("Removed edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
+          //printf("Removed edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
           reply->set_code(200);
         } else {
           reply->set_code(400);
@@ -163,7 +163,7 @@ class TesterService final : public Mutator::Service {
         // Apply change and reply
        result = remove_edge(edge->id_a(), edge->id_b());
        if (result) {
-        printf("Removed edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
+      //  printf("Removed edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
         reply->set_code(200);
        } else {
          reply->set_code(400);

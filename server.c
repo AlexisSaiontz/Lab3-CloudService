@@ -157,9 +157,9 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       if (add_vertex(arg_int)) {
       // append operation to log
         // if (add_to_log(ADD_NODE, arg_int, 0)) {
-        //   response = make_json_one("node_id", 7, arg_int);
+          response = make_json_one("node_id", 7, arg_int);
           respond(c, 200, strlen(response), response);
-      //     free(response);
+          free(response);
       // } else respond(c, 507, 0, "");
     } else {
         // vertex already existed
@@ -445,7 +445,6 @@ int main(int argc, char** argv) {
 
   c = mg_bind(&mgr, s_http_port, ev_handler);
   mg_set_protocol_http_websocket(c);
-   printf("%s\n", "here" );
 
   map.nsize = 0;
   map.esize = 0;

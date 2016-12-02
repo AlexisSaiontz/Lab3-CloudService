@@ -35,10 +35,10 @@ class MutatorClient {
 
     // Act upon its status.
     if (status.ok()) {
-      std::cout << "Code returned: " << code.code() << std::endl;
+     // std::cout << "Code returned: " << code.code() << std::endl;
       return code.code();
     } else {
-      std::cout <<  "RPC failed" << std::endl;
+     // std::cout <<  "RPC failed" << std::endl;
       return 500;
     }
   }
@@ -54,10 +54,10 @@ class MutatorClient {
 
     // Act upon its status.
     if (status.ok()) {
-      std::cout << "Code returned: " << code.code() << std::endl;
+      //std::cout << "Code returned: " << code.code() << std::endl;
       return code.code();
     } else {
-      std::cout <<  "RPC failed" << std::endl;
+      //std::cout <<  "RPC failed" << std::endl;
       return 500;
     }
   }
@@ -74,10 +74,10 @@ class MutatorClient {
 
     // Act upon its status.
     if (status.ok()) {
-      std::cout << "Code returned: " << code.code() << std::endl;
+     // std::cout << "Code returned: " << code.code() << std::endl;
       return code.code();
     } else {
-      std::cout <<  "RPC failed" << std::endl;
+  //    std::cout <<  "RPC failed" << std::endl;
       return 500;
     }
   }
@@ -154,6 +154,6 @@ int send_to_next(const uint64_t opcode, const uint64_t id_a, const uint64_t id_b
       break;
   }
   
-  std::cout << "Client received status code: " << code << std::endl;
+//  std::cout << "Client received status code: " << code << std::endl;
   return code;
 }
