@@ -39,14 +39,14 @@ class TesterService final : public Mutator::Service {
          }
 	      // Apply change and reply
          result = add_vertex(node->id());
-         if (result != r_code){
-          fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
-         }
          if (result) {
           printf("Added node %d\n", (int) node->id());
           reply->set_code(200);
         } else {
           reply->set_code(204);
+        }
+        if (reply->get_code != r_code){
+          fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
         }
         return Status::OK;
       }
@@ -79,14 +79,14 @@ class TesterService final : public Mutator::Service {
         }
         // Apply change and reply
         result = remove_vertex(node->id());
-         if (result != r_code){
-          fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
-         }
         if (result) {
           printf("Removed node %d\n", (int) node->id());
           reply->set_code(200);
         } else {
           reply->set_code(400);
+        }
+        if (reply->get_code != r_code){
+          fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
         }
         return Status::OK;
       }
@@ -121,15 +121,14 @@ class TesterService final : public Mutator::Service {
         // Apply change and reply
         result = add_edge(edge->id_a(), edge->id_b());
 
-        if (result != r_code){
-          fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
-        }
-
         if (result == 200) {
           printf("Added edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
           reply->set_code(200);
         } else {
           reply->set_code(result);
+        }
+        if (reply->get_code != r_code){
+          fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
         }
         return Status::OK;
       }
@@ -164,15 +163,14 @@ class TesterService final : public Mutator::Service {
         // Apply change and reply
         result = remove_edge(edge->id_a(), edge->id_b());
 
-        if (result != r_code){
-          fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
-        }
-
         if (result) {
           printf("Removed edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
           reply->set_code(200);
         } else {
           reply->set_code(400);
+        }
+        if (reply->get_code != r_code){
+          fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
         }
         return Status::OK;
       }
