@@ -439,11 +439,13 @@ int main(int argc, char** argv) {
   
   struct mg_mgr mgr; 
   struct mg_connection *c;
- 
+
    // pass in void pointer
   mg_mgr_init(&mgr, NULL);
+
   c = mg_bind(&mgr, s_http_port, ev_handler);
   mg_set_protocol_http_websocket(c);
+   printf("%s\n", "here" );
 
   map.nsize = 0;
   map.esize = 0;
@@ -453,24 +455,24 @@ int main(int argc, char** argv) {
   for (i = 0; i < SIZE; i++) (map.table)[i] = NULL;
 
  // Format option
-  if (format) {
-    if (format_superblock()) {
-      fprintf(stderr, "Successfully formatted superblock\n");
-      clear_checkpoint_area();
-    } else {
-      fprintf(stderr, "Failed to format superblock\n");
-      return 1;
-    }
-  } else { // normal startup
-      if (!normal_startup()) {
-        fprintf(stderr, "Normal startup failed. Abort\n");
-        return 1;
-      } else {
-        checkpoint_area *loaded = get_checkpoint();
-        if (loaded != NULL) buildmap(loaded);
-        tail = get_tail();
-      }
-  }
+  // if (format) {
+  //   if (format_superblock()) {
+  //     fprintf(stderr, "Successfully formatted superblock\n");
+  //     clear_checkpoint_area();
+  //   } else {
+  //     fprintf(stderr, "Failed to format superblock\n");
+  //     return 1;
+  //   }
+  // } else { // normal startup
+  //     if (!normal_startup()) {
+  //       fprintf(stderr, "Normal startup failed. Abort\n");
+  //       return 1;
+  //     } else {
+  //       checkpoint_area *loaded = get_checkpoint();
+  //       if (loaded != NULL) buildmap(loaded);
+  //       tail = get_tail();
+  //     }
+  // }
 
     if (CHAIN_NUM != 1) {
       // create reference to second thread
@@ -481,8 +483,8 @@ int main(int argc, char** argv) {
       if(pthread_create(&inc_x_thread, NULL, serve_rpc, &x)) {
         fprintf(stderr, "Error creating thread\n");
         return 1;
+        }
       }
-    }
 
     for (;;) {
       mg_mgr_poll(&mgr, 1000);
