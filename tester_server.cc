@@ -45,7 +45,7 @@ class TesterService final : public Mutator::Service {
         } else {
           reply->set_code(204);
         }
-        if (reply->get_code != r_code){
+        if (reply->code() != r_code){
           fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
         }
         return Status::OK;
@@ -85,7 +85,7 @@ class TesterService final : public Mutator::Service {
         } else {
           reply->set_code(400);
         }
-        if (reply->get_code != r_code){
+        if (reply->code() != r_code){
           fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
         }
         return Status::OK;
@@ -127,7 +127,7 @@ class TesterService final : public Mutator::Service {
         } else {
           reply->set_code(result);
         }
-        if (reply->get_code != r_code){
+        if (reply->code() != r_code){
           fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
         }
         return Status::OK;
@@ -169,7 +169,7 @@ class TesterService final : public Mutator::Service {
         } else {
           reply->set_code(400);
         }
-        if (reply->get_code != r_code){
+        if (reply->code() != r_code){
           fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
         }
         return Status::OK;
