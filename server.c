@@ -156,11 +156,11 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       // returns true if successfully added
       if (add_vertex(arg_int)) {
       // append operation to log
-        if (add_to_log(ADD_NODE, arg_int, 0)) {
-          response = make_json_one("node_id", 7, arg_int);
+        // if (add_to_log(ADD_NODE, arg_int, 0)) {
+        //   response = make_json_one("node_id", 7, arg_int);
           respond(c, 200, strlen(response), response);
-          free(response);
-      } else respond(c, 507, 0, "");
+      //     free(response);
+      // } else respond(c, 507, 0, "");
     } else {
         // vertex already existed
         respond(c, 204, 0, "");
@@ -201,11 +201,12 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
           respond(c, 204, 0, "");
         case 200:
 	  // append operation to log
-          if (add_to_log(ADD_EDGE, arg_a_int, arg_b_int)) {
+       //   if (add_to_log(ADD_EDGE, arg_a_int, arg_b_int)) {
 	    response = make_json_two("node_a_id", "node_b_id", 9, 9, arg_a_int, arg_b_int);
 	    respond(c, 200, strlen(response), response);
             free(response);
-          } else respond(c, 507, 0, "");
+          // } 
+          // else respond(c, 507, 0, "");
       }
     } 
     else if (!strncmp(hm->uri.p, "/api/v1/remove_node", hm->uri.len)) {
@@ -236,11 +237,11 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       // if node does not exist
       if (remove_vertex(arg_int)) {
 	// append operation to log
-        if (add_to_log(REMOVE_NODE, arg_int, 0)) {
+        //if (add_to_log(REMOVE_NODE, arg_int, 0)) {
 	  response = make_json_one("node_id", 7, arg_int);
           respond(c, 200, strlen(response), response);
           free(response);
-	} else respond(c, 507, 0, "");
+//	} else respond(c, 507, 0, "");
       } else {
         respond(c, 400, 0, "");
       }
@@ -275,11 +276,11 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
       // if edge does not exist
       if (remove_edge(arg_a_int, arg_b_int)) {
         // append operation to log
-        if (add_to_log(REMOVE_EDGE, arg_a_int, arg_b_int)) {
+     //   if (add_to_log(REMOVE_EDGE, arg_a_int, arg_b_int)) {
 	  response = make_json_two("node_a_id", "node_b_id", 9, 9, arg_a_int, arg_b_int);
           respond(c, 200, strlen(response), response);
           free(response);;
-	} else respond(c, 507, 0, "");
+//	} else respond(c, 507, 0, "");
       } else {
         respond(c, 400, 0, "");
       }

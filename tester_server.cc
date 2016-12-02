@@ -112,7 +112,7 @@ class TesterService final : public Mutator::Service {
         }
         // Apply change and reply
         result = add_edge(edge->id_a(), edge->id_b());
-        printf("result = %d\n", result);
+     
         if (result == 200) {
           printf("Added edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
           reply->set_code(200);
