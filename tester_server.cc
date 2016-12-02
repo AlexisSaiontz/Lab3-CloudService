@@ -24,10 +24,12 @@ class TesterService final : public Mutator::Service {
   
   Status add_node(ServerContext* context, const Node* node,
                   Code* reply) override {
+    std::cout <<  "HERE!" << std::endl;
     bool result;
     int r_code;
     switch(CHAIN_NUM) {
         case 2: {
+
 	  // First make request to tail
 	  r_code = send_to_next(ADD_NODE, node->id(), 0);
 	  // 500 is designated for RPC failures

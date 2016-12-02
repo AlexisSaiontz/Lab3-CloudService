@@ -408,7 +408,7 @@ static void ev_handler(struct mg_connection *c, int ev, void *p) {
 
 int main(int argc, char** argv) {
 
-  bool format = false; 	// format flag specified?
+  bool format = false;  // format flag specified?
  
   // ensure correct number of arguments
   if (argc != 3 && argc != 4) {
@@ -425,20 +425,16 @@ int main(int argc, char** argv) {
 
   const char *s_http_port = argv[(format? 2 : 1)];
   const char *devfile = argv[(format? 3 : 2)];
-  // get chain_num from environment
-  CHAIN_NUM = atoi(getenv("CHAIN_NUM"));
-  fprintf(stderr, "Chain num is %d\n", CHAIN_NUM); 
 
-  if (CHAIN_NUM == 1) {
-    
   fd = open(devfile, O_RDWR);
   if (fd == -1) {
     fprintf(stderr, "Unable to open %s. Abort.\n", devfile);
     return 1;
   }
-}
 
-  
+  // get chain_num from environment
+  CHAIN_NUM = atoi(getenv("CHAIN_NUM"));
+  fprintf(stderr, "Chain num is %d\n", CHAIN_NUM); 
   
   struct mg_mgr mgr; 
   struct mg_connection *c;
@@ -447,7 +443,7 @@ int main(int argc, char** argv) {
   mg_mgr_init(&mgr, NULL);
   c = mg_bind(&mgr, s_http_port, ev_handler);
   mg_set_protocol_http_websocket(c);
-printf("%s\n", "here3" );
+
   map.nsize = 0;
   map.esize = 0;
   map.table = (vertex **) malloc(SIZE * sizeof(vertex*));
@@ -471,7 +467,7 @@ printf("%s\n", "here3" );
       } else {
         checkpoint_area *loaded = get_checkpoint();
         if (loaded != NULL) buildmap(loaded);
-	      tail = get_tail();
+        tail = get_tail();
       }
   }
 
@@ -482,8 +478,8 @@ printf("%s\n", "here3" );
 
       fprintf(stderr, "In chain %d\n", CHAIN_NUM);
       if(pthread_create(&inc_x_thread, NULL, serve_rpc, &x)) {
-	fprintf(stderr, "Error creating thread\n");
-	return 1;
+  fprintf(stderr, "Error creating thread\n");
+  return 1;
       }
     }
 
