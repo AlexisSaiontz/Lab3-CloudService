@@ -78,7 +78,7 @@ class TesterService final : public Mutator::Service {
           printf("Removed node %d\n", (int) node->id());
           reply->set_code(200);
         } else {
-          reply->set_code(204);
+          reply->set_code(400);
         }
         return Status::OK;
       }
@@ -89,7 +89,7 @@ class TesterService final : public Mutator::Service {
           printf("Removed node %d\n", (int) node->id());
           reply->set_code(200);
         } else {
-          reply->set_code(204);
+          reply->set_code(400);
         }
         return Status::OK;
       }
@@ -112,7 +112,7 @@ class TesterService final : public Mutator::Service {
         }
         // Apply change and reply
         result = add_edge(edge->id_a(), edge->id_b());
-     
+
         if (result == 200) {
           printf("Added edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
           reply->set_code(200);
@@ -155,7 +155,7 @@ class TesterService final : public Mutator::Service {
           printf("Removed edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
           reply->set_code(200);
         } else {
-          reply->set_code(204);
+          reply->set_code(400);
         }
         return Status::OK;
       }
@@ -166,7 +166,7 @@ class TesterService final : public Mutator::Service {
         printf("Removed edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
         reply->set_code(200);
        } else {
-         reply->set_code(204);
+         reply->set_code(400);
        }
        return Status::OK;
      }
