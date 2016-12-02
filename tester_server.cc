@@ -31,13 +31,17 @@ class TesterService final : public Mutator::Service {
         case 2: {
         // First make request to tail
           r_code = send_to_next(ADD_NODE, node->id(), 0);
+
 	       // 500 is designated for RPC failures
           if (r_code == 500) {
            reply->set_code(500);
            return Status::CANCELLED;
          }
-	  // Apply change and reply
+	      // Apply change and reply
          result = add_vertex(node->id());
+         if (result != rcode){
+          fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
+         }
          if (result) {
           printf("Added node %d\n", (int) node->id());
           reply->set_code(200);
@@ -75,6 +79,9 @@ class TesterService final : public Mutator::Service {
         }
         // Apply change and reply
         result = remove_vertex(node->id());
+         if (result != rcode){
+          fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
+         }
         if (result) {
           printf("Removed node %d\n", (int) node->id());
           reply->set_code(200);
@@ -114,6 +121,10 @@ class TesterService final : public Mutator::Service {
         // Apply change and reply
         result = add_edge(edge->id_a(), edge->id_b());
 
+        if (result != rcode){
+          fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
+        }
+
         if (result == 200) {
           printf("Added edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
           reply->set_code(200);
@@ -152,6 +163,11 @@ class TesterService final : public Mutator::Service {
         }
         // Apply change and reply
         result = remove_edge(edge->id_a(), edge->id_b());
+
+        if (result != rcode){
+          fprintf(stderr, "SOMETHING BAD HAPPENED! \n");
+        }
+
         if (result) {
           printf("Removed edge %d, %d\n", (int) edge->id_a(), (int) edge->id_b());
           reply->set_code(200);
