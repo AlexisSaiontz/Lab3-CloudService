@@ -426,7 +426,7 @@ int main(int argc, char** argv) {
   if (argc==4){
     ip = true;
     // is the first argument the -b flag?
-    if (strcmp(B_FLAG, argv[1]){
+    if (strcmp(B_FLAG, argv[1])){
       ip_num = 2;
       http_num = 3;
     }
